@@ -27,7 +27,6 @@ def pregunta_01():
     suma =0
     for i in lista: suma+=int(i[1])
     return suma
-print(pregunta_01())
 
 def pregunta_02():
     """
