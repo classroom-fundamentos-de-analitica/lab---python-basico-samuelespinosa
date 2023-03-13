@@ -43,8 +43,13 @@ def pregunta_02():
     ]
 
     """
-    return
-
+    li=['A','B','C','D','E']
+    mx=[]
+    for i in li: 
+        tmp=len(list(filter(lambda x: x[0]==i,lista)))
+        mx.append((i,tmp))
+    return mx
+print(pregunta_02())
 
 def pregunta_03():
     """
