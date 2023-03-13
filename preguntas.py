@@ -49,7 +49,7 @@ def pregunta_02():
         tmp=len(list(filter(lambda x: x[0]==i,lista)))
         mx.append((i,tmp))
     return mx
-print(pregunta_02())
+
 
 def pregunta_03():
     """
@@ -64,9 +64,18 @@ def pregunta_03():
         ("D", 31),
         ("E", 67),
     ]
+    
 
     """
-    return
+    li=['A','B','C','D','E']
+    mx=[]
+    for i in li: 
+        tmp=list(filter(lambda x: x[0]==i,lista))
+        suma=0
+        for x in tmp: suma+=int(x[1])
+        mx.append((i,suma))
+    return mx
+
 
 
 def pregunta_04():
