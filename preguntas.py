@@ -125,7 +125,7 @@ def pregunta_05():
     ]
 
     """
-    maxis={"A":0,"B":0,"C":0,"D":0,"E":0}
+    maxis={"A":[0,inf],"B":[0,inf],"C":[0,inf],"D":[0,inf],"E":[0,inf]}
     for i in lista: 
         if maxis.get(i[0])[0] < int(i[1]): maxis[i[0]][0]=int(i[1])
         if maxis.get(i[0])[1] > int(i[1]): maxis[i[0]][1]=int(i[1])
@@ -156,7 +156,7 @@ def pregunta_06():
     ]
 
     """
-    maxis={"aaa":0,"bbb":0,"ccc":0,"ddd":0,"eee":0,"fff":0,"ggg":0,"hhh":0,"iii":0,"jjj":0}
+    maxis={"aaa":[0,inf],"bbb":[0,inf],"ccc":[0,inf],"ddd":[0,inf],"eee":[0,inf],"fff":[0,inf],"ggg":[0,inf],"hhh":[0,inf],"iii":[0,inf],"jjj":[0,inf]}
     dts=[loads(formating('{'+i[4]+'}')) for i in lista]
     for i in dts:
         for k in i.keys():
@@ -329,4 +329,3 @@ def pregunta_12():
     }
     for i in lista: rt[i[0]]+=sum(map(int,loads(formating('{'+i[4]+'}')).values()))
     return rt
-print(pregunta_12())
