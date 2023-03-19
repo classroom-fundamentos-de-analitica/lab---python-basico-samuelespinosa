@@ -11,8 +11,12 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-
-
+import csv
+from math import inf
+with open('data.csv','r') as tabla:
+    file=csv.reader(tabla,delimiter='	')
+    lista=list(file)
+    
 def pregunta_01():
     """
     Retorne la suma de la segunda columna.
@@ -21,8 +25,9 @@ def pregunta_01():
     214
 
     """
-    return
-
+    suma =0
+    for i in lista: suma+=int(i[1])
+    return suma
 
 def pregunta_02():
     """
@@ -39,7 +44,12 @@ def pregunta_02():
     ]
 
     """
-    return
+    li=['A','B','C','D','E']
+    mx=[]
+    for i in li: 
+        tmp=len(list(filter(lambda x: x[0]==i,lista)))
+        mx.append((i,tmp))
+    return mx
 
 
 def pregunta_03():
@@ -55,9 +65,18 @@ def pregunta_03():
         ("D", 31),
         ("E", 67),
     ]
+    
 
     """
-    return
+    li=['A','B','C','D','E']
+    mx=[]
+    for i in li: 
+        tmp=list(filter(lambda x: x[0]==i,lista))
+        suma=0
+        for x in tmp: suma+=int(x[1])
+        mx.append((i,suma))
+    return mx
+
 
 
 def pregunta_04():
@@ -82,7 +101,13 @@ def pregunta_04():
     ]
 
     """
-    return
+    m=["01","02","03","04","05","06","07","08","09","10","11","12"]
+    meses=[0 for i in range(12)]
+    for i in lista:
+        mes=int(i[2][5:7])
+        meses[mes-1]+=1
+
+    return [(m[i],meses[i])for i in range(12)]
 
 
 def pregunta_05():
@@ -100,32 +125,45 @@ def pregunta_05():
     ]
 
     """
-    return
+    maxis={"A":[0,inf],"B":[0,inf],"C":[0,inf],"D":[0,inf],"E":[0,inf]}
+    for i in lista: 
+        if maxis.get(i[0])[0] < int(i[1]): maxis[i[0]][0]=int(i[1])
+        if maxis.get(i[0])[1] > int(i[1]): maxis[i[0]][1]=int(i[1])
+    return [(i,maxis[i][0],maxis[i][1]) for i in maxis.keys()]
 
-
+def formating(str):
+    output = ""
+    quoting = False
+    for char in str:
+        if char.isalnum():
+            if not quoting:
+                output += '"'
+                quoting = True
+        elif quoting:
+            output += '"'
+            quoting = False
+        output += char
+    return output
+from json import loads
 def pregunta_06():
     """
     La columna 5 codifica un diccionario donde cada cadena de tres letras corresponde a
     una clave y el valor despues del caracter `:` corresponde al valor asociado a la
     clave. Por cada clave, obtenga el valor asociado mas pequeño y el valor asociado mas
-    grande computados sobre todo el archivo.
-
-    Rta/
-    [
-        ("aaa", 1, 9),
-        ("bbb", 1, 9),
-        ("ccc", 1, 10),
-        ("ddd", 0, 9),
-        ("eee", 1, 7),
-        ("fff", 0, 9),
-        ("ggg", 3, 10),
-        ("hhh", 0, 9),
+    grande computaedt , 9),
         ("iii", 0, 9),
         ("jjj", 5, 17),
     ]
 
     """
-    return
+    maxis={"aaa":[0,inf],"bbb":[0,inf],"ccc":[0,inf],"ddd":[0,inf],"eee":[0,inf],"fff":[0,inf],"ggg":[0,inf],"hhh":[0,inf],"iii":[0,inf],"jjj":[0,inf]}
+    dts=[loads(formating('{'+i[4]+'}')) for i in lista]
+    for i in dts:
+        for k in i.keys():
+            if maxis[k][0] < int(i[k]):maxis[k][0]=int(i[k])
+            if maxis[k][1] > int(i[k]):maxis[k][1]=int(i[k])
+        
+    return [(i,maxis[i][1],maxis[i][0]) for i in maxis.keys()]
 
 
 def pregunta_07():
@@ -149,7 +187,12 @@ def pregunta_07():
     ]
 
     """
-    return
+    li=[[] for i in range(10)]
+    for i in lista:
+        li[int(i[1])].append(i[0])
+    return [(i,li[i]) for i in range(10)]
+
+
 
 
 def pregunta_08():
@@ -174,7 +217,10 @@ def pregunta_08():
     ]
 
     """
-    return
+    li=[[] for i in range(10)]
+    for i in lista:
+        li[int(i[1])].append(i[0])
+    return [(i,sorted(list(set(li[i])))) for i in range(10)]
 
 
 def pregunta_09():
@@ -197,9 +243,14 @@ def pregunta_09():
     }
 
     """
-    return
+    maxis={"aaa":0,"bbb":0,"ccc":0,"ddd":0,"eee":0,"fff":0,"ggg":0,"hhh":0,"iii":0,"jjj":0}
+    dts=[loads(formating('{'+i[4]+'}')) for i in lista]
+    for i in dts:
+        for k in i.keys():
+            maxis[k]+=1
+    return maxis
 
-
+from re import sub
 def pregunta_10():
     """
     Retorne una lista de tuplas contengan por cada tupla, la letra de la columna 1 y la
@@ -217,9 +268,9 @@ def pregunta_10():
     ]
 
 
-    """
-    return
+    """ 
 
+    return [(i[0],len(list(sub('\,','',i[3]))),len(loads(formating('{'+i[4]+'}')))) for i in lista]
 
 def pregunta_11():
     """
@@ -239,7 +290,19 @@ def pregunta_11():
 
 
     """
-    return
+    dt={
+        "a": 0,
+        "b": 0,
+        "c": 0,
+        "d": 0,
+        "e": 0,
+        "f": 0,
+        "g": 0,
+    }
+    for i in lista:
+        for k in list(sub('\,','',i[3])): dt[k]+=int(i[1])
+    return dt
+
 
 
 def pregunta_12():
@@ -257,4 +320,12 @@ def pregunta_12():
     }
 
     """
-    return
+    rt= {
+        'A': 0,
+        'B': 0,
+        'C': 0,
+        'D': 0,
+        'E': 0
+    }
+    for i in lista: rt[i[0]]+=sum(map(int,loads(formating('{'+i[4]+'}')).values()))
+    return rt
